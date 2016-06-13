@@ -18,7 +18,7 @@
   <arg if="$(arg SIMULATION)" name="USE_MULTITHREAD_CALLBACK" value="false" />
   <arg if="$(arg SIMULATION)" name="NUM_OF_THREAD_OMP" value="1" />
   <arg if="$(arg SIMULATION)" name="COLOR_REFERENCE_FILE" value="$(find jsk_pcl_ros)/config/drc_box_color.yaml" />
-  <arg if="$(arg SIMULATION)" name="MIN_LIKELIHOOD_PLANE" value="0.2" />
+  <arg if="$(arg SIMULATION)" name="MIN_LIKELIHOOD_PLANE" value="0.35" />
   <arg if="$(arg SIMULATION)" name="MIN_CLOUD_SIZE_TORUS" value="80"  />
   <arg if="$(arg SIMULATION)" name="MAX_RADIUS_TORUS"     value="0.3" />
   <arg if="$(arg SIMULATION)" name="MIN_RADIUS_TORUS"     value="0.13"/>
@@ -82,7 +82,7 @@
       <rosparam subst_value="true">
         max_area: 5.0
         min_area: 0.05
-        cluster_tolerance: 0.5
+        cluster_tolerance: 0.2
         use_multithread_callback: $(arg USE_MULTITHREAD_CALLBACK)
       </rosparam>
     </node>
