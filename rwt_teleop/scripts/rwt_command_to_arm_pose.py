@@ -22,13 +22,13 @@ class RwtCommandToArmPose():
     self.sub = rospy.Subscriber("/pointcloud_screenpoint_nodelet/output_point", PointStamped, self.click_cb)
 
     for lr in self.LR:
-      self.ee_pose[lr] = PoseStamped(header=Header(frame_id="base_link"))
+      self.ee_pose[lr] = PoseStamped(header=Header(frame_id="dual_arm_base"))
       self.ee_pose[lr].pose.position    = Point(0.5, self.sgns[lr] * 0.3, 1.0)
       self.ee_pose[lr].pose.orientation = Quaternion(0,0,0,1)
       self.ep_pub[lr]  = rospy.Publisher('/master_'+lr+'arm_pose', PoseStamped, queue_size=1)
       self.g_pub[lr]   = rospy.Publisher('/'+lr+'_gripper_controller/gripper_action/goal', Pr2GripperCommandActionGoal, queue_size=1)
   
-    self.head_pose     = PoseStamped(header=Header(frame_id="base_link"))
+    self.head_pose     = PoseStamped(header=Header(frame_id="dual_arm_base"))
     self.head_pub      = rospy.Publisher('/master_head_pose', PoseStamped, queue_size=1)
     self.lr_for_click  = "l"
     self.lr_mode_pub   = rospy.Publisher('/rwt_current_state', String, queue_size=1)
@@ -42,8 +42,8 @@ class RwtCommandToArmPose():
 
   def click_cb(self, msg):
     try:
-      self.tfl.waitForTransform("/base_link", "/rwt_clicked_point", msg.header.stamp, timeout=rospy.Duration(1))
-      (pos, rot) = self.tfl.lookupTransform("/base_link", "/rwt_clicked_point", rospy.Time(0))
+      self.tfl.waitForTransform("/dual_arm_base", "/rwt_clicked_point", msg.header.stamp, timeout=rospy.Duration(1))
+      (pos, rot) = self.tfl.lookupTransform("/dual_arm_base", "/rwt_clicked_point", rospy.Time(0))
     except Exception, e:
       rospy.logerr(e)
       return
